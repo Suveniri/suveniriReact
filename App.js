@@ -7,6 +7,7 @@ import CurrentSeason from "./pages/currentSeasonPage/CurrentSeason";
 import PreviousSeason from "./pages/previousSeasonPage/PreviousSeazons.js";
 
 const Stack = createNativeStackNavigator();
+import "react-native-url-polyfill/auto";
 
 export default function App() {
   return (
