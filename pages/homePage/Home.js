@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,12 @@ import {
 } from "react-native";
 
 export default function Home({ navigation }) {
+  const [areNumbersVisible, setAreNumbersVisible] = useState(true);
+
+  const handleToggle = () => {
+    setAreNumbersVisible((prev) => !prev);
+  };
+
   return (
     <ImageBackground
       source={require("../../assets/homeBackgroundImage.jpg")}
@@ -19,25 +25,36 @@ export default function Home({ navigation }) {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("CurrentSeason")}
+          onPress={() =>
+            navigation.navigate("CurrentSeason", { areNumbersVisible })
+          }
         >
           <Text style={styles.buttonText}>Ova godina</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("PreviousSeason")}
+          onPress={() =>
+            navigation.navigate("PreviousSeason", { areNumbersVisible })
+          }
         >
           <Text style={styles.buttonText}>Prošle godine</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("AllSouvenirs")}
+          onPress={() =>
+            navigation.navigate("AllSouvenirs", { areNumbersVisible })
+          }
         >
           <Text style={styles.buttonText}>Svi suveniri</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.toggleButton} onPress={handleToggle}>
+        <Text style={styles.toggleText}>
+          {areNumbersVisible ? "SAKRIJ" : "PRIKAŽI"}
+        </Text>
+      </TouchableOpacity>
     </ImageBackground>
   );
 }
@@ -76,5 +93,25 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontSize: 22,
+  },
+  toggleButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "#000",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 50,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+    width: 120,
+  },
+  toggleText: {
+    color: "#fff",
+    fontSize: 18,
+    textAlign: "center",
   },
 });

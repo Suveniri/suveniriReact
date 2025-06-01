@@ -2,7 +2,9 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import SeasonTopScreen from "./currentSeasonTopScreen/SeasonTopScreen";
 
-export default function CurrentSeason() {
+export default function CurrentSeason({ route }) {
+  const { areNumbersVisible } = route.params;
+
   return (
     <View style={styles.container}>
       <SeasonTopScreen />

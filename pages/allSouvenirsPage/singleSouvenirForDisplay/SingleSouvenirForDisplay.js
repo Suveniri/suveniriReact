@@ -1,7 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
-export default function SingleSouvenirForDisplay({ souvenir }) {
+export default function SingleSouvenirForDisplay({
+  souvenir,
+  areNumbersVisible,
+}) {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -13,7 +16,9 @@ export default function SingleSouvenirForDisplay({ souvenir }) {
       </View>
       <View style={styles.dataContainer}>
         <Text style={styles.nameText}>{souvenir.name}</Text>
-        <Text style={styles.priceText}>{souvenir.price} €</Text>
+        <Text style={styles.priceText}>
+          {areNumbersVisible ? `${souvenir.price} €` : "****"}
+        </Text>
       </View>
     </View>
   );

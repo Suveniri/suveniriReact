@@ -10,7 +10,8 @@ import {
 import SingleSouvenirForDisplay from "./singleSouvenirForDisplay/SingleSouvenirForDisplay";
 import { supabase } from "../../config/supabase";
 
-export default function AllSouvenirs() {
+export default function AllSouvenirs({ route }) {
+  const { areNumbersVisible } = route.params;
   const [allSouvenirs, setAllSouvenirs] = useState();
 
   useEffect(() => {
@@ -37,7 +38,13 @@ export default function AllSouvenirs() {
         <Text style={styles.text}>SVI SUVENIRI</Text>
         <ScrollView style={styles.souvenirsContainer}>
           {allSouvenirs?.map((souvenir, index) => {
-            return <SingleSouvenirForDisplay key={index} souvenir={souvenir} />;
+            return (
+              <SingleSouvenirForDisplay
+                key={index}
+                souvenir={souvenir}
+                areNumbersVisible={areNumbersVisible}
+              />
+            );
           })}
         </ScrollView>
         <TouchableOpacity style={styles.button}>
