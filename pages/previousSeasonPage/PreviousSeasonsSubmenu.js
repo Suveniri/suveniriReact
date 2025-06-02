@@ -7,32 +7,14 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { supabase } from "../../config/supabase";
+import { fetchSeasons } from "../../api/db";
 
-export default function PreviousSeason() {
+export default function PreviousSeason({ navigation, route }) {
   const [seasons, setSeasons] = useState([]);
+  const { areNumbersVisible } = route.params;
 
   const handleSeasonPress = (year) => {
-    navigation.navigate("SeasonDetails", { year });
-  };
-
-  const fetchSeasons = async () => {
-    const { data, error } = await supabase
-      .from("souvenir_yearly_data")
-      .select("year")
-      .order("year", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching seasons:", error);
-      return [];
-    }
-
-    const currentYear = new Date().getFullYear();
-
-    const uniqueYears = [...new Set(data.map((item) => item.year))].filter(
-      (year) => year < currentYear
-    );
-    return uniqueYears;
+    navigation.navigate("PreviousSeasonDetails", { year, areNumbersVisible });
   };
 
   useEffect(() => {

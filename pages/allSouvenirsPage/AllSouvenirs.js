@@ -8,24 +8,19 @@ import {
   ImageBackground,
 } from "react-native";
 import SingleSouvenirForDisplay from "./singleSouvenirForDisplay/SingleSouvenirForDisplay";
-import { supabase } from "../../config/supabase";
+import { fetchAllSouvenirs } from "../../api/db";
 
 export default function AllSouvenirs({ route }) {
   const { areNumbersVisible } = route.params;
-  const [allSouvenirs, setAllSouvenirs] = useState();
+  const [allSouvenirs, setAllSouvenirs] = useState([]);
 
   useEffect(() => {
-    async function fetchSouvenirs() {
-      const { data, error } = await supabase.from("souvenirs").select("*");
-
-      if (error) {
-        console.error("Error fetching souvenirs:", error);
-      } else {
-        setAllSouvenirs(data);
-      }
+    async function loadSouvenirs() {
+      const data = await fetchAllSouvenirs();
+      setAllSouvenirs(data);
     }
 
-    fetchSouvenirs();
+    loadSouvenirs();
   }, []);
 
   return (
