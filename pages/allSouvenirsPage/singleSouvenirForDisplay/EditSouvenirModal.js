@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import ModalButtons from "./editSouvenirModal/ModalButtons";
 import ModalInputs from "./editSouvenirModal/ModalInputs";
+import ModalCamera from "./editSouvenirModal/ModalCamera";
 
 export default function EditSouvenirModal({
   souvenir,
@@ -17,6 +18,7 @@ export default function EditSouvenirModal({
 }) {
   const [newName, setNewName] = useState("");
   const [newPrice, setNewPrice] = useState("");
+  const [image, setImage] = useState(null);
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
@@ -58,10 +60,14 @@ export default function EditSouvenirModal({
             setNewName={setNewName}
             setNewPrice={setNewPrice}
           />
+          <ModalCamera image={image} setImage={setImage} />
           <ModalButtons
             setIsModalVisible={setIsModalVisible}
             newName={newName}
             newPrice={newPrice}
+            image={image}
+            setImage={setImage}
+            souvenir={souvenir}
           />
         </View>
       </View>
@@ -84,9 +90,10 @@ const styles = StyleSheet.create({
     width: "80%",
     height: "60%",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
   },
   modalContentWithKeyboard: {
-    height: "80%",
+    height: "100%",
+    width: "100%",
   },
 });
