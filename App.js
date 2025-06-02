@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./pages/homePage/Home";
 import AllSouvenirs from "./pages/allSouvenirsPage/AllSouvenirs";
 import CurrentSeason from "./pages/currentSeasonPage/CurrentSeason";
-import PreviousSeason from "./pages/previousSeasonPage/PreviousSeazons.js";
+import PreviousSeason from "./pages/previousSeasonPage/PreviousSeasons.js";
 
 const Stack = createNativeStackNavigator();
 import "react-native-url-polyfill/auto";
