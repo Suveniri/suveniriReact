@@ -87,6 +87,26 @@ export const saveSouvenirChanges = async (
   }
 };
 
+export const createNewSouvenir = async (newName, newPrice, newImage) => {
+  if (!newName || !newPrice) {
+    alert("Ispuni sva polja!");
+    return [];
+  }
+
+  const { data, error } = await supabase.from("souvenirs").insert({
+    name: newName,
+    price: newPrice,
+    image_url: newImage,
+  });
+
+  if (error) {
+    console.error(`Error adding new souvenir: `, error);
+    return [];
+  } else {
+    console.log("successfully added souvenir: ", data);
+  }
+};
+
 export const deleteSouvenir = async (souvenir) => {
   const { data, error } = await supabase
     .from("souvenirs")

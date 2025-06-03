@@ -1,11 +1,14 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { saveSouvenirChanges } from "../../../../api/db";
+import { createNewSouvenir, saveSouvenirChanges } from "../../../../api/db";
 import { useState } from "react";
 import ConfirmModal from "./ConfirmModal";
 
 export default function ModalButtons({
   setIsModalVisible,
+  setIsNewSouvenirModalVisible,
+  setNewName,
   newName,
+  setNewPrice,
   newPrice,
   image,
   setImage,
@@ -13,20 +16,29 @@ export default function ModalButtons({
   setShouldRefetchAllSouvneirs,
 }) {
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+
   const handleCloseButtonClick = () => {
-    setIsModalVisible(false);
+    souvenir ? setIsModalVisible(false) : setIsNewSouvenirModalVisible(false);
     setImage(null);
+    setNewPrice(null);
+    setNewName(null);
   };
 
-  const handleSaveButtonClick = () => {
-    saveSouvenirChanges(souvenir, newName, newPrice, image);
+  const handleSaveButtonClick = async () => {
+    if (souvenir) await saveSouvenirChanges(souvenir, newName, newPrice, image);
+    else await createNewSouvenir(newName, newPrice, image);
     setShouldRefetchAllSouvneirs((prev) => !prev);
-    setIsModalVisible(false);
+    souvenir ? setIsModalVisible(false) : setIsNewSouvenirModalVisible(false);
+    setImage(null);
+    setNewPrice(null);
+    setNewName(null);
   };
 
   const handleDeleteButtonClick = () => {
     setIsConfirmModalVisible(true);
     setImage(null);
+    setNewPrice(null);
+    setNewName(null);
   };
 
   return (
@@ -44,12 +56,14 @@ export default function ModalButtons({
         >
           <Text style={styles.closeButtonText}>Spremi</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.closeButton, styles.deleteButton]}
-          onPress={() => handleDeleteButtonClick()}
-        >
-          <Text style={styles.closeButtonText}>Izbriši</Text>
-        </TouchableOpacity>
+        {souvenir && (
+          <TouchableOpacity
+            style={[styles.closeButton, styles.deleteButton]}
+            onPress={() => handleDeleteButtonClick()}
+          >
+            <Text style={styles.closeButtonText}>Izbriši</Text>
+          </TouchableOpacity>
+        )}
       </View>
       <ConfirmModal
         isConfirmModalVisible={isConfirmModalVisible}

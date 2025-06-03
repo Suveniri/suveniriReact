@@ -9,11 +9,14 @@ import {
 } from "react-native";
 import SingleSouvenirForDisplay from "./singleSouvenirForDisplay/SingleSouvenirForDisplay";
 import { fetchAllSouvenirs } from "../../api/db";
+import EditSouvenirModal from "./singleSouvenirForDisplay/EditSouvenirModal";
 
 export default function AllSouvenirs({ route }) {
   const { areNumbersVisible } = route.params;
   const [allSouvenirs, setAllSouvenirs] = useState([]);
   const [shouldRefetchAllSouvenirs, setShouldRefetchAllSouvneirs] =
+    useState(false);
+  const [isNewSouvenirModalVisible, setIsNewSouvenirModalVisible] =
     useState(false);
 
   useEffect(() => {
@@ -45,9 +48,17 @@ export default function AllSouvenirs({ route }) {
             );
           })}
         </ScrollView>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setIsNewSouvenirModalVisible(true)}
+        >
           <Text style={styles.buttonText}>DODAJ NOVI SUVENIR</Text>
         </TouchableOpacity>
+        <EditSouvenirModal
+          setIsNewSouvenirModalVisible={setIsNewSouvenirModalVisible}
+          isNewSouvenirModalVisible={isNewSouvenirModalVisible}
+          setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
+        />
       </View>
     </ImageBackground>
   );

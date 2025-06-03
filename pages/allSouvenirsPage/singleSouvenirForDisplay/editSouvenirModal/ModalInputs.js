@@ -3,8 +3,15 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 export default function ModalInputs({ souvenir, setNewName, setNewPrice }) {
   return (
     <View style={styles.inputContainer}>
-      <Text style={styles.modalText}>IME: {souvenir.name}</Text>
-      <Text style={styles.modalText}>CIJENA: {souvenir.price} €</Text>
+      {souvenir ? (
+        <>
+          <Text style={styles.modalText}>IME: {souvenir.name}</Text>
+          <Text style={styles.modalText}>CIJENA: {souvenir.price} €</Text>
+        </>
+      ) : (
+        <Text style={styles.modalText}>NOVI SUVENIR</Text>
+      )}
+
       <TextInput
         style={styles.input}
         onChangeText={setNewName}

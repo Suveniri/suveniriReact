@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Modal,
-  TextInput,
-  Keyboard,
-} from "react-native";
+import { View, StyleSheet, Modal, Keyboard } from "react-native";
 import ModalButtons from "./editSouvenirModal/ModalButtons";
 import ModalInputs from "./editSouvenirModal/ModalInputs";
 import ModalCamera from "./editSouvenirModal/ModalCamera";
@@ -16,6 +9,8 @@ export default function EditSouvenirModal({
   setIsModalVisible,
   isModalVisible,
   setShouldRefetchAllSouvneirs,
+  setIsNewSouvenirModalVisible,
+  isNewSouvenirModalVisible,
 }) {
   const [newName, setNewName] = useState("");
   const [newPrice, setNewPrice] = useState("");
@@ -45,7 +40,7 @@ export default function EditSouvenirModal({
   return (
     <Modal
       transparent={true}
-      visible={isModalVisible}
+      visible={souvenir ? isModalVisible : isNewSouvenirModalVisible}
       animationType="slide"
       onRequestClose={() => setIsModalVisible(false)}
     >
@@ -64,7 +59,10 @@ export default function EditSouvenirModal({
           <ModalCamera image={image} setImage={setImage} />
           <ModalButtons
             setIsModalVisible={setIsModalVisible}
+            setIsNewSouvenirModalVisible={setIsNewSouvenirModalVisible}
+            setNewName={setNewName}
             newName={newName}
+            setNewPrice={setNewPrice}
             newPrice={newPrice}
             image={image}
             setImage={setImage}

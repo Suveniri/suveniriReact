@@ -8,6 +8,13 @@ export default function ConfirmModal({
   setIsModalVisible,
   setShouldRefetchAllSouvneirs,
 }) {
+  const handleConfirmButtonClick = async () => {
+    setIsConfirmModalVisible(false);
+    await deleteSouvenir(souvenir);
+    setIsModalVisible(false);
+    setShouldRefetchAllSouvneirs((prev) => !prev);
+  };
+
   return (
     <Modal
       transparent={true}
@@ -23,12 +30,7 @@ export default function ConfirmModal({
           <View style={{ flexDirection: "row", gap: 10 }}>
             <TouchableOpacity
               style={styles.confirmButton}
-              onPress={() => {
-                setIsConfirmModalVisible(false);
-                deleteSouvenir(souvenir);
-                setIsModalVisible(false);
-                setShouldRefetchAllSouvneirs((prev) => !prev);
-              }}
+              onPress={() => handleConfirmButtonClick()}
             >
               <Text style={styles.buttonText}>Da</Text>
             </TouchableOpacity>
