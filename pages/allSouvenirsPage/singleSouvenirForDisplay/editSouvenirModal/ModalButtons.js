@@ -1,4 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { saveSouvenirChanges } from "../../../../api/db";
+import { useState } from "react";
+import ConfirmModal from "./ConfirmModal";
 
 export default function ModalButtons({
   setIsModalVisible,
@@ -7,24 +10,22 @@ export default function ModalButtons({
   image,
   setImage,
   souvenir,
+  setShouldRefetchAllSouvneirs,
 }) {
+  const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
   const handleCloseButtonClick = () => {
     setIsModalVisible(false);
     setImage(null);
   };
 
   const handleSaveButtonClick = () => {
-    console.log(
-      "new name: ",
-      newName,
-      " new price: ",
-      newPrice,
-      "new image: ",
-      image
-    );
+    saveSouvenirChanges(souvenir, newName, newPrice, image);
+    setShouldRefetchAllSouvneirs((prev) => !prev);
+    setIsModalVisible(false);
   };
 
   const handleDeleteButtonClick = () => {
+    setIsConfirmModalVisible(true);
     setImage(null);
   };
 
@@ -50,6 +51,13 @@ export default function ModalButtons({
           <Text style={styles.closeButtonText}>Izbriši</Text>
         </TouchableOpacity>
       </View>
+      <ConfirmModal
+        isConfirmModalVisible={isConfirmModalVisible}
+        setIsConfirmModalVisible={setIsConfirmModalVisible}
+        souvenir={souvenir}
+        setIsModalVisible={setIsModalVisible}
+        setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
+      />
     </View>
   );
 }

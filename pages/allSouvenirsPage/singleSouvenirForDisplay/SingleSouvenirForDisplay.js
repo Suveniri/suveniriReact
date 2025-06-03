@@ -5,6 +5,7 @@ import DataForSingleSouvenir from "./DataForSIngleSouvenir";
 export default function SingleSouvenirForDisplay({
   souvenir,
   areNumbersVisible,
+  setShouldRefetchAllSouvneirs,
 }) {
   return (
     <View style={styles.container}>
@@ -18,6 +19,7 @@ export default function SingleSouvenirForDisplay({
       <DataForSingleSouvenir
         souvenir={souvenir}
         areNumbersVisible={areNumbersVisible}
+        setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
       />
     </View>
   );

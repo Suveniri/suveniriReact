@@ -15,6 +15,7 @@ export default function EditSouvenirModal({
   souvenir,
   setIsModalVisible,
   isModalVisible,
+  setShouldRefetchAllSouvneirs,
 }) {
   const [newName, setNewName] = useState("");
   const [newPrice, setNewPrice] = useState("");
@@ -68,6 +69,7 @@ export default function EditSouvenirModal({
             image={image}
             setImage={setImage}
             souvenir={souvenir}
+            setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
           />
         </View>
       </View>

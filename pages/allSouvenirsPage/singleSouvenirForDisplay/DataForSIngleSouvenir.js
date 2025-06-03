@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import EditSouvenirModal from "./EditSouvenirModal";
 
-export default function DataForSingleSouvenir({ souvenir, areNumbersVisible }) {
+export default function DataForSingleSouvenir({
+  souvenir,
+  areNumbersVisible,
+  setShouldRefetchAllSouvneirs,
+}) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
@@ -23,6 +27,7 @@ export default function DataForSingleSouvenir({ souvenir, areNumbersVisible }) {
         souvenir={souvenir}
         setIsModalVisible={setIsModalVisible}
         isModalVisible={isModalVisible}
+        setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
       />
     </View>
   );

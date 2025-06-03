@@ -13,6 +13,8 @@ import { fetchAllSouvenirs } from "../../api/db";
 export default function AllSouvenirs({ route }) {
   const { areNumbersVisible } = route.params;
   const [allSouvenirs, setAllSouvenirs] = useState([]);
+  const [shouldRefetchAllSouvenirs, setShouldRefetchAllSouvneirs] =
+    useState(false);
 
   useEffect(() => {
     async function loadSouvenirs() {
@@ -21,7 +23,7 @@ export default function AllSouvenirs({ route }) {
     }
 
     loadSouvenirs();
-  }, []);
+  }, [shouldRefetchAllSouvenirs]);
 
   return (
     <ImageBackground
@@ -38,6 +40,7 @@ export default function AllSouvenirs({ route }) {
                 key={index}
                 souvenir={souvenir}
                 areNumbersVisible={areNumbersVisible}
+                setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
               />
             );
           })}

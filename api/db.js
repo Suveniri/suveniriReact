@@ -63,3 +63,40 @@ export const fetchSouvenirsForSingleSeason = async (year) => {
     imageUrl: entry.souvenirs?.image_url ?? null,
   }));
 };
+
+export const saveSouvenirChanges = async (
+  souvenir,
+  newName,
+  newPrice,
+  newImage
+) => {
+  const { data, error } = await supabase
+    .from("souvenirs")
+    .update({
+      name: newName || souvenir.name,
+      price: newPrice || souvenir.price,
+      image_url: newImage || souvenir.image_url,
+    })
+    .eq("id", souvenir.id);
+
+  if (error) {
+    console.error(`Error fetching ${souvenir}: `, error);
+    return [];
+  } else {
+    console.log("successfully updated souvenir: ", data);
+  }
+};
+
+export const deleteSouvenir = async (souvenir) => {
+  const { data, error } = await supabase
+    .from("souvenirs")
+    .delete()
+    .eq("id", souvenir.id);
+
+  if (error) {
+    console.error(`Error fetching ${souvenir}: `, error);
+    return [];
+  } else {
+    console.log("delete successfull: ", data);
+  }
+};

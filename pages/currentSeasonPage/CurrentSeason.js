@@ -25,12 +25,10 @@ export default function CurrentSeason({ route }) {
     loadData();
   }, []);
 
-  console.log(souvenirs[0].name);
-
   return (
     <View style={styles.container}>
       <SeasonTopScreen />
-      <Text style={styles.text}>{souvenirs[0].name}</Text>
+      {/* <Text style={styles.text}>{souvenirs[0].name}</Text> */}
       <Text style={styles.text}>Ukupno: {totalRevenue} €</Text>
     </View>
   );

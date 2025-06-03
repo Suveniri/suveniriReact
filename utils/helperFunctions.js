@@ -46,10 +46,6 @@ const openGallery = async (setImage) => {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      console.log("Selected image:", result.assets[0].uri);
-
-      // You can also trigger an upload here, if needed
-      // uploadImageToSupabase(result.assets[0].uri);
     }
   } catch (error) {
     console.error("Error selecting image:", error);
