@@ -1,4 +1,6 @@
 import { supabase } from "../config/supabase";
+import * as FileSystem from "expo-file-system";
+import mime from "react-native-mime-types";
 
 export const fetchAllSouvenirs = async () => {
   const { data, error } = await supabase.from("souvenirs").select("*");
@@ -70,12 +72,24 @@ export const saveSouvenirChanges = async (
   newPrice,
   newImage
 ) => {
+  const fileName = `${souvenir.id}.jpg`;
+
+  let imageUrl = souvenir.image_url;
+
+  if (newImage) {
+    imageUrl = await uploadImage(newImage, fileName);
+    if (!imageUrl) {
+      alert("Greška pri dodavanju slike.");
+      return [];
+    }
+  }
+
   const { data, error } = await supabase
     .from("souvenirs")
     .update({
       name: newName || souvenir.name,
       price: newPrice || souvenir.price,
-      image_url: newImage || souvenir.image_url,
+      image_url: imageUrl || souvenir.image_url,
     })
     .eq("id", souvenir.id);
 
@@ -88,15 +102,27 @@ export const saveSouvenirChanges = async (
 };
 
 export const createNewSouvenir = async (newName, newPrice, newImage) => {
+  const fileName = `${newName.replace(/[^a-zA-Z ]/g, "")}.jpg`;
+
   if (!newName || !newPrice) {
     alert("Ispuni sva polja!");
     return [];
   }
 
+  let imageUrl = newImage;
+
+  if (newImage) {
+    imageUrl = await uploadImage(newImage, fileName);
+    if (!imageUrl) {
+      alert("Greška pri dodavanju slike.");
+      return [];
+    }
+  }
+
   const { data, error } = await supabase.from("souvenirs").insert({
     name: newName,
     price: newPrice,
-    image_url: newImage,
+    image_url: imageUrl,
   });
 
   if (error) {
@@ -118,5 +144,40 @@ export const deleteSouvenir = async (souvenir) => {
     return [];
   } else {
     console.log("delete successfull: ", data);
+  }
+};
+
+export const uploadImage = async (uri, fileName) => {
+  try {
+    console.log("upload image");
+    const fileType = mime.lookup(uri) || "image/jpeg";
+
+    const { data, error } = await supabase.storage
+      .from("suveniri-bucket")
+      .upload(
+        `suveniri_slike/${fileName}`,
+        {
+          uri,
+          type: fileType,
+          name: fileName,
+        },
+        {
+          contentType: fileType,
+          upsert: true,
+        }
+      );
+
+    if (error) {
+      throw error;
+    }
+
+    const { data: publicURLData } = supabase.storage
+      .from("suveniri-bucket")
+      .getPublicUrl(`suveniri_slike/${fileName}`);
+
+    return publicURLData.publicURL;
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    return null;
   }
 };
