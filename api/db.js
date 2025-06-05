@@ -134,6 +134,23 @@ export const createNewSouvenir = async (newName, newPrice, newImage) => {
 };
 
 export const deleteSouvenir = async (souvenir) => {
+  const { data: usedData, error: checkError } = await supabase
+    .from("souvenir_yearly_data")
+    .select("souvenir_id")
+    .eq("souvenir_id", souvenir.id)
+    .limit(1);
+
+  if (checkError) {
+    console.error(`Error checking souvenir usage:`, checkError);
+    return [];
+  }
+  if (usedData.length > 0) {
+    alert(
+      "Ovaj suvenir je već prodavan u prethodnim sezonama i ne može biti obrisan."
+    );
+    return [];
+  }
+
   const { data, error } = await supabase
     .from("souvenirs")
     .delete()
