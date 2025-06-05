@@ -1,6 +1,5 @@
-import { supabase } from "../config/supabase";
-import * as FileSystem from "expo-file-system";
 import mime from "react-native-mime-types";
+import { supabase } from "../config/supabase";
 
 export const fetchAllSouvenirs = async () => {
   const { data, error } = await supabase.from("souvenirs").select("*");
@@ -36,7 +35,6 @@ export const fetchSouvenirsForSingleSeason = async (year) => {
     .from("souvenir_yearly_data")
     .select(
       `
-            id,
             quantity_ordered,
             quantity_sold,
             revenue,
@@ -56,7 +54,7 @@ export const fetchSouvenirsForSingleSeason = async (year) => {
   }
 
   return data.map((entry) => ({
-    id: entry.id,
+    id: `${entry.souvenir_id}-${year}`,
     quantityOrdered: entry.quantity_ordered,
     quantitySold: entry.quantity_sold,
     revenue: entry.revenue,
@@ -72,11 +70,13 @@ export const saveSouvenirChanges = async (
   newPrice,
   newImage
 ) => {
-  const fileName = `${souvenir.id}.jpg`;
+  const timestamp = Date.now();
+  const fileName = `${souvenir.id}-${timestamp}.jpg`;
 
   let imageUrl = souvenir.image_url;
 
   if (newImage) {
+    removeOldImage(imageUrl);
     imageUrl = await uploadImage(newImage, fileName);
     if (!imageUrl) {
       alert("Greška pri dodavanju slike.");
@@ -147,9 +147,19 @@ export const deleteSouvenir = async (souvenir) => {
   }
 };
 
+export const removeOldImage = async (oldImageUrl) => {
+  const filePath = oldImageUrl.split("/").slice(-2).join("/");
+  const { error } = await supabase.storage
+    .from("suveniri-bucket")
+    .remove([filePath]);
+
+  if (error) {
+    console.error("Failed to remove old image:", error);
+  }
+};
+
 export const uploadImage = async (uri, fileName) => {
   try {
-    console.log("upload image");
     const fileType = mime.lookup(uri) || "image/jpeg";
 
     const { data, error } = await supabase.storage

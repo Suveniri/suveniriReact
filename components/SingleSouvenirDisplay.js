@@ -24,14 +24,12 @@ export default function SingleSouvenirDisplay({ item, areNumbersVisible }) {
       <Text style={styles.name}>{item.name}</Text>
       {areNumbersVisible ? (
         <>
-          <Text style={styles.text}>
-            Cijena: {areNumbersVisible ? `${item.price}` : "****"} €
-          </Text>
+          <Text style={styles.text}>Cijena: {item.price} €</Text>
           <Text style={styles.text}>Naručeno: {item.quantityOrdered}</Text>
-          <Text style={styles.text}>Prodano: {item.quantitySold}</Text>
           <Text style={styles.text}>
-            Prihod: {areNumbersVisible ? `${item.revenue}` : "****"} €
+            Prodano: {(item.revenue / item.price).toFixed(0)}
           </Text>
+          <Text style={styles.text}>Prihod: {item.revenue} €</Text>
         </>
       ) : (
         <></>
