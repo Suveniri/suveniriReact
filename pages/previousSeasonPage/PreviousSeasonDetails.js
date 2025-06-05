@@ -8,6 +8,7 @@ import {
   Image,
 } from "react-native";
 import { fetchSouvenirsForSingleSeason } from "../../api/db";
+import SingleSouvenirDisplay from "../../components/SingleSouvenirDisplay";
 
 export default function PreviousSeasonDetails({ route }) {
   const { year, areNumbersVisible } = route.params;
@@ -42,27 +43,20 @@ export default function PreviousSeasonDetails({ route }) {
           data={souvenirs}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.card}>
-              {item.imageUrl && (
-                <Image source={{ uri: item.imageUrl }} style={styles.image} />
-              )}
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.text}>
-                Cijena: {areNumbersVisible ? `${item.price}` : "****"} €
-              </Text>
-              <Text style={styles.text}>Naručeno: {item.quantityOrdered}</Text>
-              <Text style={styles.text}>Prodano: {item.quantitySold}</Text>
-              <Text style={styles.text}>
-                Prihod: {areNumbersVisible ? `${item.revenue}` : "****"} €
-              </Text>
-            </View>
+            <SingleSouvenirDisplay
+              item={item}
+              areNumbersVisible={areNumbersVisible}
+            />
           )}
           ListFooterComponent={
             <View style={styles.footer}>
-              <Text style={styles.totalText}>
-                Ukupno:{" "}
-                {areNumbersVisible ? `${totalRevenue.toFixed(2)}` : "****"} €
-              </Text>
+              {areNumbersVisible ? (
+                <Text style={styles.totalText}>
+                  Ukupno: {totalRevenue.toFixed(2)} €
+                </Text>
+              ) : (
+                <></>
+              )}
             </View>
           }
         />
@@ -94,29 +88,13 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1,
   },
-  card: {
-    backgroundColor: "#ffffffaa",
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 15,
-  },
-  image: {
-    width: "100%",
-    height: 150,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  name: {
-    fontSize: 20,
-    fontWeight: "600",
-    marginBottom: 5,
-  },
-  text: {
-    fontSize: 24,
-  },
   totalText: {
     fontSize: 28,
     fontWeight: "bold",
     color: "#000",
+  },
+  footer: {
+    display: "flex",
+    alignItems: "center",
   },
 });
