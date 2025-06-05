@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import EditSouvenirModal from "./EditSouvenirModal";
 
 export default function DataForSingleSouvenir({
@@ -12,10 +12,18 @@ export default function DataForSingleSouvenir({
   return (
     <View style={styles.dataContainer}>
       <Text style={styles.nameText}>{souvenir.name}</Text>
-      <View style={styles.priceAndEditContainer}>
-        <Text style={styles.priceText}>
-          {areNumbersVisible ? `${souvenir.price} €` : "**** €"}
-        </Text>
+      <View
+        style={
+          areNumbersVisible
+            ? styles.priceAndEditContainer
+            : styles.editContainer
+        }
+      >
+        {areNumbersVisible ? (
+          <Text style={styles.priceText}>{souvenir.price} €</Text>
+        ) : (
+          <></>
+        )}
         <TouchableOpacity
           style={styles.editButton}
           onPress={() => setIsModalVisible(true)}
@@ -62,6 +70,13 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  editContainer: {
+    width: "100%",
+    height: "30%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   editButton: {
     width: "40%",

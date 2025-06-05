@@ -72,10 +72,11 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: "bold",
+    marginTop: 30,
     marginBottom: 40,
-    color: "#fff",
+    color: "#000",
     textAlign: "center",
     textShadowColor: "#000",
     textShadowOffset: { width: 1, height: 1 },

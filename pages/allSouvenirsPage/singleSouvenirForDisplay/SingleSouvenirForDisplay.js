@@ -1,25 +1,40 @@
-import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, Image, Modal, Pressable } from "react-native";
 import DataForSingleSouvenir from "./DataForSIngleSouvenir";
+import FullscreenImageModal from "../../../components/FullScreenImageModal";
 
 export default function SingleSouvenirForDisplay({
   souvenir,
   areNumbersVisible,
   setShouldRefetchAllSouvneirs,
 }) {
+  const [isImageModalVisible, setIsImageModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image
-          source={{ uri: `${souvenir.image_url}` }}
+        <Pressable
+          onPress={() => {
+            setIsImageModalVisible(true);
+          }}
           style={styles.image}
-          resizeMode="cover"
-        />
+        >
+          <Image
+            source={{ uri: `${souvenir.image_url}` }}
+            style={styles.image}
+            resizeMode="contain"
+          />
+        </Pressable>
       </View>
       <DataForSingleSouvenir
         souvenir={souvenir}
         areNumbersVisible={areNumbersVisible}
         setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
+      />
+      <FullscreenImageModal
+        souvenir={souvenir}
+        setIsImageModalVisible={setIsImageModalVisible}
+        isImageModalVisible={isImageModalVisible}
       />
     </View>
   );
@@ -42,8 +57,22 @@ const styles = StyleSheet.create({
     height: "100%",
     borderWidth: 1,
     borderColor: "black",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   image: {
+    width: "90%",
+    height: "90%",
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.95)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  fullscreenImage: {
     width: "100%",
     height: "100%",
   },
