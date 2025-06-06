@@ -12,6 +12,7 @@ import {
   initializeSouvenirsForCurrentYear,
 } from "../../api/db";
 import SingleSouvenirForDisplay from "../allSouvenirsPage/singleSouvenirForDisplay/SingleSouvenirForDisplay";
+import SingleSouvenirDisplay from "../../components/SingleSouvenirDisplay";
 
 export default function CurrentSeason({ route }) {
   const { areNumbersVisible } = route.params;
@@ -59,9 +60,9 @@ export default function CurrentSeason({ route }) {
 
         <ScrollView style={styles.souvenirsContainer}>
           {souvenirs.map((souvenir, index) => (
-            <SingleSouvenirForDisplay
+            <SingleSouvenirDisplay
               key={index}
-              souvenir={souvenir}
+              item={souvenir}
               areNumbersVisible={areNumbersVisible}
             />
           ))}
