@@ -11,7 +11,6 @@ import {
   fetchSouvenirsForSingleSeason,
   initializeSouvenirsForCurrentYear,
 } from "../../api/db";
-import SingleSouvenirForDisplay from "../allSouvenirsPage/singleSouvenirForDisplay/SingleSouvenirForDisplay";
 import SingleSouvenirDisplay from "../../components/SingleSouvenirDisplay";
 
 export default function CurrentSeason({ route }) {

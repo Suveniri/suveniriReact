@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import { updateSelledOrderedQuantities } from "../../api/db";
+import { updateSelledOrderedQuantities, updateRevenue } from "../../api/db";
 
 export default function QuantityModalButton({
   souvenir,
@@ -21,6 +21,13 @@ export default function QuantityModalButton({
       newOrderQuantity,
       newSelledQuantity
     );
+
+    await updateRevenue({
+      ...souvenir,
+      quantitySold: isPlusSelled
+        ? Number(souvenir.quantitySold) + Number(newSelledQuantity)
+        : Number(souvenir.quantitySold) - Number(newSelledQuantity),
+    });
 
     setIsQuantityModalVisible(false);
     setNewOrderQuantity(0);

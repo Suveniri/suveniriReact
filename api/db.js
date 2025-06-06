@@ -281,3 +281,18 @@ export const updateSelledOrderedQuantities = async (
     return [];
   }
 };
+
+export const updateRevenue = async (souvenir) => {
+  const { data, error } = await supabase
+    .from("souvenir_yearly_data")
+    .update({
+      revenue: Number(souvenir.quantitySold) * souvenir.price,
+    })
+    .eq("souvenir_id", souvenir.id.slice(0, -5))
+    .eq("year", new Date().getFullYear());
+
+  if (error) {
+    console.error("Error updating revenue:", error);
+    return;
+  }
+};
