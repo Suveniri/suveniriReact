@@ -75,16 +75,15 @@ const styles = StyleSheet.create({
   },
   container: {
     display: "flex",
-    marginTop: "30",
+    marginTop: 60,
+    width: "100%",
     backgroundColor: "#f5f5f5",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 50,
   },
   souvenirsContainer: {
-    width: "95%",
-    borderWidth: 2,
-    borderColor: "black",
+    width: "75%",
   },
   title: {
     fontSize: 32,

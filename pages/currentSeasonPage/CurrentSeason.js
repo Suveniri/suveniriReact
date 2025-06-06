@@ -75,7 +75,7 @@ export default function CurrentSeason({ route }) {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    marginTop: "30",
+    marginTop: 30,
     backgroundColor: "#f5f5f5",
     justifyContent: "center",
     alignItems: "center",
@@ -85,8 +85,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   souvenirsContainer: {
-    width: "95%",
-    borderWidth: 2,
-    borderColor: "black",
+    width: "75%",
   },
 });

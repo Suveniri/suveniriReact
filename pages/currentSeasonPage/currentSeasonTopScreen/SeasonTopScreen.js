@@ -7,20 +7,19 @@ export default function SeasonTopScreen({
   totalRevenue,
   totalOrderedValue,
 }) {
-  const [currentlyEarned, setCurrentlyEarned] = useState(totalRevenue);
-  const [joskoRequest, setJoskoRequest] = useState(totalOrderedValue);
-
   if (!areNumbersVisible) {
     return null;
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.block}>{selectedYear}.</Text>
-      <Text style={styles.block}>
-        Zarada: {totalRevenue ? totalRevenue : 0} €
-      </Text>
-      <Text style={styles.block}>Naručeno: {totalOrderedValue} €</Text>
+      <Text style={styles.fullWidthBlock}>{selectedYear}.</Text>
+      <View style={styles.row}>
+        <Text style={styles.halfBlock}>
+          Zarada: {totalRevenue ? totalRevenue : 0} €
+        </Text>
+        <Text style={styles.halfBlock}>Naručeno: {totalOrderedValue} €</Text>
+      </View>
     </View>
   );
 }
@@ -28,22 +27,36 @@ export default function SeasonTopScreen({
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     backgroundColor: "#f5f5f5",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "azure",
+    width: "100%",
+    marginBottom: 1,
   },
-  block: {
-    width: 125,
-    height: 100,
-    fontSize: 22,
-    borderWidth: 2,
-    borderColor: "black",
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  fullWidthBlock: {
+    width: "100%",
+    height: 50,
+    fontSize: 24,
+    // borderWidth: 1,
+    // borderColor: "black",
     textAlign: "center",
     textAlignVertical: "center",
     padding: 10,
-    flexWrap: "wrap",
-    flex: 1,
+  },
+  halfBlock: {
+    width: "50%",
+    height: 50,
+    fontSize: 20,
+    borderWidth: 1,
+    borderColor: "black",
+    textAlign: "left",
+    textAlignVertical: "center",
+    padding: 4,
   },
 });
