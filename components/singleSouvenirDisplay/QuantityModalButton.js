@@ -10,10 +10,14 @@ export default function QuantityModalButton({
   newOrderQuantity,
   newSelledQuantity,
   isPlusOrder,
+  setIsPlusOrder,
   isPlusSelled,
+  setIsPlusSelled,
   setShouldRefetchAllSouvneirs,
 }) {
   const handleSaveQuantityChanges = async () => {
+    if (newOrderQuantity === 0 && newSelledQuantity === 0) return;
+
     await updateSelledOrderedQuantities(
       souvenir,
       isPlusOrder,
@@ -33,6 +37,8 @@ export default function QuantityModalButton({
     setNewOrderQuantity(0);
     setNewSelledQuantity(0);
     setShouldRefetchAllSouvneirs((prev) => !prev);
+    setIsPlusOrder(true);
+    setIsPlusSelled(true);
   };
 
   return (
@@ -49,6 +55,8 @@ export default function QuantityModalButton({
           setIsQuantityModalVisible(false);
           setNewOrderQuantity(0);
           setNewSelledQuantity(0);
+          setIsPlusOrder(true);
+          setIsPlusSelled(true);
         }}
       >
         <Text style={styles.buttonText}>Poništi</Text>

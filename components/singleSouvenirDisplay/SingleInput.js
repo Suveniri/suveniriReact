@@ -25,7 +25,7 @@ export default function SingleInput({ title, setNumber, setIsPlus, isPlus }) {
           }}
         />
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, { backgroundColor: isPlus ? "green" : "red" }]}
           onPress={() => setIsPlus((prev) => !prev)}
         >
           <Text style={[styles.text, { color: "white" }]}>

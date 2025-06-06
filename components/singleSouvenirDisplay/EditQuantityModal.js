@@ -71,7 +71,9 @@ export default function EditQuantityModal({
             newOrderQuantity={newOrderQuantity}
             newSelledQuantity={newSelledQuantity}
             isPlusOrder={isPlusOrder}
+            setIsPlusOrder={setIsPlusOrder}
             isPlusSelled={isPlusSelled}
+            setIsPlusSelled={setIsPlusSelled}
             setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
           />
         </View>
