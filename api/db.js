@@ -145,8 +145,6 @@ export const saveSouvenirChanges = async (
   if (error) {
     console.error(`Error fetching ${souvenir}: `, error);
     return [];
-  } else {
-    console.log("successfully updated souvenir: ", data);
   }
 };
 
@@ -255,5 +253,31 @@ export const uploadImage = async (uri, fileName) => {
   } catch (error) {
     console.error("Error uploading image:", error);
     return null;
+  }
+};
+
+export const updateSelledOrderedQuantities = async (
+  souvenir,
+  isPlusOrder,
+  isPlusSelled,
+  newOrderQuantity,
+  newSelledQuantity
+) => {
+  const { data, error } = await supabase
+    .from("souvenir_yearly_data")
+    .update({
+      quantity_sold: isPlusSelled
+        ? Number(souvenir.quantitySold) + Number(newSelledQuantity)
+        : Number(souvenir.quantitySold) - Number(newSelledQuantity),
+      quantity_ordered: isPlusOrder
+        ? Number(souvenir.quantityOrdered) + Number(newOrderQuantity)
+        : Number(souvenir.quantityOrdered) - Number(newOrderQuantity),
+    })
+    .eq("souvenir_id", souvenir.id.slice(0, -5))
+    .eq("year", new Date().getFullYear());
+
+  if (error) {
+    console.error(`Error fetching ${souvenir}: `, error);
+    return [];
   }
 };

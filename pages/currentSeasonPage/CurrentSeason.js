@@ -19,6 +19,8 @@ export default function CurrentSeason({ route }) {
   const [souvenirs, setSouvenirs] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalOrderedValue, setTotalOrderedValue] = useState(0);
+  const [shouldRefetchAllSouvenirs, setShouldRefetchAllSouvneirs] =
+    useState(false);
 
   const currentYear = new Date().getFullYear();
 
@@ -42,7 +44,7 @@ export default function CurrentSeason({ route }) {
     };
 
     loadData();
-  }, []);
+  }, [shouldRefetchAllSouvenirs]);
 
   return (
     <ImageBackground
@@ -64,6 +66,8 @@ export default function CurrentSeason({ route }) {
               key={index}
               item={souvenir}
               areNumbersVisible={areNumbersVisible}
+              isCurrentSeason={true}
+              setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
             />
           ))}
         </ScrollView>

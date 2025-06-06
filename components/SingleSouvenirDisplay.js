@@ -1,9 +1,18 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, Image, Pressable } from "react-native";
 import FullscreenImageModal from "./FullScreenImageModal";
+import DataContainer from "./singleSouvenirDisplay/DataContainer";
+import EditContainer from "./singleSouvenirDisplay/EditContainer";
+import EditQuantityModal from "./singleSouvenirDisplay/EditQuantityModal";
 
-export default function SingleSouvenirDisplay({ item, areNumbersVisible }) {
+export default function SingleSouvenirDisplay({
+  item,
+  areNumbersVisible,
+  isCurrentSeason,
+  setShouldRefetchAllSouvneirs,
+}) {
   const [isImageModalVisible, setIsImageModalVisible] = useState(false);
+  const [isQuantityModalVisible, setIsQuantityModalVisible] = useState(false);
 
   return (
     <View style={styles.card}>
@@ -24,12 +33,14 @@ export default function SingleSouvenirDisplay({ item, areNumbersVisible }) {
       <Text style={styles.name}>{item.name}</Text>
       {areNumbersVisible ? (
         <>
-          <Text style={styles.text}>Cijena: {item.price} €</Text>
-          <Text style={styles.text}>Naručeno: {item.quantityOrdered}</Text>
-          <Text style={styles.text}>
-            Prodano: {(item.revenue / item.price).toFixed(0)}
-          </Text>
-          <Text style={styles.text}>Prihod: {item.revenue} €</Text>
+          <View style={styles.textContainer}>
+            <DataContainer item={item} isCurrentSeason={isCurrentSeason} />
+            {isCurrentSeason && (
+              <EditContainer
+                setIsQuantityModalVisible={setIsQuantityModalVisible}
+              />
+            )}
+          </View>
         </>
       ) : (
         <></>
@@ -39,6 +50,14 @@ export default function SingleSouvenirDisplay({ item, areNumbersVisible }) {
         setIsImageModalVisible={setIsImageModalVisible}
         isImageModalVisible={isImageModalVisible}
       />
+      {isCurrentSeason && (
+        <EditQuantityModal
+          souvenir={item}
+          setIsQuantityModalVisible={setIsQuantityModalVisible}
+          isQuantityModalVisible={isQuantityModalVisible}
+          setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
+        />
+      )}
     </View>
   );
 }
@@ -63,7 +82,29 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     textAlign: "center",
   },
-  text: {
-    fontSize: 24,
+  textContainer: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  editButtonContainer: {
+    width: "25%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  editButton: {
+    width: "100%",
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderRadius: 5,
+    backgroundColor: "darkgray",
+  },
+  buttonText: {
+    textAlign: "center",
+    textAlignVertical: "center",
+    fontWeight: "bold",
+    fontSize: 20,
   },
 });
