@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  ScrollView,
-} from "react-native";
-import SeasonTopScreen from "./currentSeasonTopScreen/SeasonTopScreen";
+import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
 import {
   fetchSouvenirsForSingleSeason,
   initializeSouvenirsForCurrentYear,
 } from "../../api/db";
-import SingleSouvenirForDisplay from "../allSouvenirsPage/singleSouvenirForDisplay/SingleSouvenirForDisplay";
+import SearchBar from "../../components/SearchBar";
 import SingleSouvenirDisplay from "../../components/SingleSouvenirDisplay";
+import SeasonTopScreen from "./currentSeasonTopScreen/SeasonTopScreen";
 
 export default function CurrentSeason({ route }) {
   const { areNumbersVisible } = route.params;
   const [souvenirs, setSouvenirs] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalOrderedValue, setTotalOrderedValue] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const currentYear = new Date().getFullYear();
 
@@ -44,6 +39,10 @@ export default function CurrentSeason({ route }) {
     loadData();
   }, []);
 
+  const filteredSouvenirs = souvenirs.filter((item) =>
+    item.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <ImageBackground
       source={require("../../assets/homeBackgroundImage.jpg")}
@@ -58,8 +57,10 @@ export default function CurrentSeason({ route }) {
           totalOrderedValue={totalOrderedValue}
         />
 
+        <SearchBar value={searchTerm} onChangeText={setSearchTerm} />
+
         <ScrollView style={styles.souvenirsContainer}>
-          {souvenirs.map((souvenir, index) => (
+          {filteredSouvenirs.map((souvenir, index) => (
             <SingleSouvenirDisplay
               key={index}
               item={souvenir}
@@ -75,11 +76,12 @@ export default function CurrentSeason({ route }) {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    marginTop: 30,
-    backgroundColor: "#f5f5f5",
+    marginTop: 40,
+    width: "100%",
+    height: "90%",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 120,
+    marginBottom: 60,
   },
   text: {
     fontSize: 24,

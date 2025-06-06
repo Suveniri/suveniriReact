@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  ImageBackground,
-  Text,
-  View,
-  StyleSheet,
-  FlatList,
-  Image,
-  ScrollView,
-} from "react-native";
+import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
 import { fetchSouvenirsForSingleSeason } from "../../api/db";
+import SearchBar from "../../components/SearchBar";
 import SingleSouvenirDisplay from "../../components/SingleSouvenirDisplay";
 import SeasonTopScreen from "../currentSeasonPage/currentSeasonTopScreen/SeasonTopScreen";
 
@@ -17,6 +10,7 @@ export default function PreviousSeasonDetails({ route }) {
   const [souvenirs, setSouvenirs] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalOrderedValue, setTotalOrderedValue] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const loadData = async () => {
@@ -39,6 +33,10 @@ export default function PreviousSeasonDetails({ route }) {
     loadData();
   }, [year]);
 
+  const filteredSouvenirs = souvenirs.filter((item) =>
+    item.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <ImageBackground
       source={require("../../assets/homeBackgroundImage.jpg")}
@@ -53,8 +51,10 @@ export default function PreviousSeasonDetails({ route }) {
           totalOrderedValue={totalOrderedValue}
         />
 
+        <SearchBar value={searchTerm} onChangeText={setSearchTerm} />
+
         <ScrollView style={styles.souvenirsContainer}>
-          {souvenirs.map((souvenir, index) => (
+          {filteredSouvenirs.map((souvenir, index) => (
             <SingleSouvenirDisplay
               key={index}
               item={souvenir}
@@ -68,37 +68,16 @@ export default function PreviousSeasonDetails({ route }) {
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   container: {
     display: "flex",
-    marginTop: 60,
+    marginTop: 40,
     width: "100%",
-    backgroundColor: "#f5f5f5",
+    height: "90%",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 50,
+    marginBottom: 60,
   },
   souvenirsContainer: {
     width: "75%",
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-    marginTop: 30,
-    marginBottom: 40,
-    color: "#000",
-    textAlign: "center",
-    textShadowColor: "#000",
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 1,
-  },
-  totalText: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#000",
   },
 });
