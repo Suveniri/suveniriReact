@@ -45,7 +45,7 @@ export default function SingleSouvenirDisplay({ item, areNumbersVisible }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#ffffffaa",
+    backgroundColor: "#ffffffcc",
     borderRadius: 10,
     padding: 15,
     marginBottom: 15,
