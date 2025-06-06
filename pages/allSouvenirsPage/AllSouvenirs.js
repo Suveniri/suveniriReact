@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 50,
   },
   souvenirsContainer: {
     width: "95%",
@@ -82,8 +82,9 @@ const styles = StyleSheet.create({
     borderColor: "black",
   },
   text: {
-    fontSize: 24,
+    fontSize: 32,
     height: "5%",
+    fontWeight: "bold",
   },
   button: {
     backgroundColor: "#000000",

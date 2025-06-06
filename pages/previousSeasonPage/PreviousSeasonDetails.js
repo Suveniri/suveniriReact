@@ -6,14 +6,17 @@ import {
   StyleSheet,
   FlatList,
   Image,
+  ScrollView,
 } from "react-native";
 import { fetchSouvenirsForSingleSeason } from "../../api/db";
 import SingleSouvenirDisplay from "../../components/SingleSouvenirDisplay";
+import SeasonTopScreen from "../currentSeasonPage/currentSeasonTopScreen/SeasonTopScreen";
 
 export default function PreviousSeasonDetails({ route }) {
   const { year, areNumbersVisible } = route.params;
   const [souvenirs, setSouvenirs] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
+  const [totalOrderedValue, setTotalOrderedValue] = useState(0);
 
   useEffect(() => {
     const loadData = async () => {
@@ -25,6 +28,12 @@ export default function PreviousSeasonDetails({ route }) {
         0
       );
       setTotalRevenue(total);
+
+      const totalOrderedValue = data.reduce(
+        (sum, item) => sum + (item.quantityOrdered || 0) * (item.price || 0),
+        0
+      );
+      setTotalOrderedValue(totalOrderedValue);
     };
 
     loadData();
@@ -37,29 +46,22 @@ export default function PreviousSeasonDetails({ route }) {
       imageStyle={{ opacity: 0.6 }}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Podaci za sezonu {year}</Text>
+        <SeasonTopScreen
+          selectedYear={year}
+          areNumbersVisible={areNumbersVisible}
+          totalRevenue={totalRevenue}
+          totalOrderedValue={totalOrderedValue}
+        />
 
-        <FlatList
-          data={souvenirs}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
+        <ScrollView style={styles.souvenirsContainer}>
+          {souvenirs.map((souvenir, index) => (
             <SingleSouvenirDisplay
-              item={item}
+              key={index}
+              item={souvenir}
               areNumbersVisible={areNumbersVisible}
             />
-          )}
-          ListFooterComponent={
-            <View style={styles.footer}>
-              {areNumbersVisible ? (
-                <Text style={styles.totalText}>
-                  Ukupno: {totalRevenue.toFixed(2)} €
-                </Text>
-              ) : (
-                <></>
-              )}
-            </View>
-          }
-        />
+          ))}
+        </ScrollView>
       </View>
     </ImageBackground>
   );
@@ -72,10 +74,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-    width: "100%",
+    display: "flex",
+    marginTop: "30",
+    backgroundColor: "#f5f5f5",
+    justifyContent: "center",
     alignItems: "center",
-    marginTop: 60,
-    marginBottom: 100,
+    marginBottom: 50,
+  },
+  souvenirsContainer: {
+    width: "95%",
+    borderWidth: 2,
+    borderColor: "black",
   },
   title: {
     fontSize: 32,
@@ -92,9 +101,5 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
     color: "#000",
-  },
-  footer: {
-    display: "flex",
-    alignItems: "center",
   },
 });

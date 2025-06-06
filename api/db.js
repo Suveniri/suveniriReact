@@ -30,6 +30,55 @@ export const fetchSeasons = async () => {
   return uniqueYears;
 };
 
+export const initializeSouvenirsForCurrentYear = async () => {
+  const currentYear = new Date().getFullYear();
+
+  const { data: allSouvenirs, error: fetchError } = await supabase
+    .from("souvenirs")
+    .select("id, price");
+
+  if (fetchError) {
+    console.error("Error fetching souvenirs:", fetchError);
+    return;
+  }
+
+  const { data: existingData, error: existingError } = await supabase
+    .from("souvenir_yearly_data")
+    .select("souvenir_id")
+    .eq("year", currentYear);
+
+  if (existingError) {
+    console.error("Error checking existing yearly data:", existingError);
+    return;
+  }
+
+  const existingIds = new Set(existingData.map((entry) => entry.souvenir_id));
+
+  const newEntries = allSouvenirs
+    .filter((souvenir) => !existingIds.has(souvenir.id))
+    .map((souvenir) => ({
+      year: currentYear,
+      souvenir_id: souvenir.id,
+      quantity_ordered: 0,
+      quantity_sold: 0,
+      revenue: 0,
+    }));
+
+  if (newEntries.length === 0) {
+    return;
+  }
+
+  const { data: insertData, error: insertError } = await supabase
+    .from("souvenir_yearly_data")
+    .insert(newEntries);
+
+  if (insertError) {
+    console.error("Error inserting yearly data:", insertError);
+  } else {
+    console.log("Successfully initialized yearly data:", insertData);
+  }
+};
+
 export const fetchSouvenirsForSingleSeason = async (year) => {
   const { data, error } = await supabase
     .from("souvenir_yearly_data")
@@ -60,7 +109,7 @@ export const fetchSouvenirsForSingleSeason = async (year) => {
     revenue: entry.revenue,
     name: entry.souvenirs?.name ?? "Unknown",
     price: entry.souvenirs?.price ?? 0,
-    imageUrl: entry.souvenirs?.image_url ?? null,
+    image_url: entry.souvenirs?.image_url ?? null,
   }));
 };
 

@@ -18,7 +18,7 @@ export default function FullscreenImageModal({
           style={styles.fullscreenImage}
         >
           <Image
-            source={{ uri: souvenir.imageUrl || souvenir.image_url }}
+            source={{ uri: souvenir.image_url }}
             style={styles.fullscreenImage}
             resizeMode="contain"
           />

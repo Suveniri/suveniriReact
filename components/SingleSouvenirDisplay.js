@@ -7,7 +7,7 @@ export default function SingleSouvenirDisplay({ item, areNumbersVisible }) {
 
   return (
     <View style={styles.card}>
-      {item.imageUrl && (
+      {item.image_url && (
         <Pressable
           onPress={() => {
             setIsImageModalVisible(true);
@@ -15,7 +15,7 @@ export default function SingleSouvenirDisplay({ item, areNumbersVisible }) {
           style={styles.image}
         >
           <Image
-            source={{ uri: item.imageUrl }}
+            source={{ uri: item.image_url }}
             style={styles.image}
             resizeMode="contain"
           />

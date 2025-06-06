@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-export default function SeasonTopScreen() {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [currentlyEarned, setCurrentlyEarned] = useState(13140);
-  const [joskoRequest, setJoskoRequest] = useState(22222);
+export default function SeasonTopScreen({
+  selectedYear,
+  areNumbersVisible,
+  totalRevenue,
+  totalOrderedValue,
+}) {
+  const [currentlyEarned, setCurrentlyEarned] = useState(totalRevenue);
+  const [joskoRequest, setJoskoRequest] = useState(totalOrderedValue);
+
+  if (!areNumbersVisible) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.block}>{currentDate.getFullYear()}.</Text>
-      <Text style={styles.block}>Zarada: {currentlyEarned} €</Text>
-      <Text style={styles.block}>Ukupno: {joskoRequest} €</Text>
+      <Text style={styles.block}>{selectedYear}.</Text>
+      <Text style={styles.block}>
+        Zarada: {totalRevenue ? totalRevenue : 0} €
+      </Text>
+      <Text style={styles.block}>Naručeno: {totalOrderedValue} €</Text>
     </View>
   );
 }
@@ -27,7 +37,7 @@ const styles = StyleSheet.create({
   block: {
     width: 125,
     height: 100,
-    fontSize: 24,
+    fontSize: 22,
     borderWidth: 2,
     borderColor: "black",
     textAlign: "center",
