@@ -10,6 +10,7 @@ import {
 import SingleSouvenirForDisplay from "./singleSouvenirForDisplay/SingleSouvenirForDisplay";
 import { fetchAllSouvenirs } from "../../api/db";
 import EditSouvenirModal from "./singleSouvenirForDisplay/EditSouvenirModal";
+import SearchBar from "../../components/SearchBar";
 
 export default function AllSouvenirs({ route }) {
   const { areNumbersVisible } = route.params;
@@ -18,6 +19,7 @@ export default function AllSouvenirs({ route }) {
     useState(false);
   const [isNewSouvenirModalVisible, setIsNewSouvenirModalVisible] =
     useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     async function loadSouvenirs() {
@@ -28,6 +30,10 @@ export default function AllSouvenirs({ route }) {
     loadSouvenirs();
   }, [shouldRefetchAllSouvenirs]);
 
+  const filteredSouvenirs = allSouvenirs.filter((item) =>
+    item.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <ImageBackground
       source={require("../../assets/homeBackgroundImage.jpg")}
@@ -36,8 +42,11 @@ export default function AllSouvenirs({ route }) {
     >
       <View style={styles.container}>
         <Text style={styles.text}>SVI SUVENIRI</Text>
+
+        <SearchBar value={searchTerm} onChangeText={setSearchTerm} />
+
         <ScrollView style={styles.souvenirsContainer}>
-          {allSouvenirs?.map((souvenir, index) => {
+          {filteredSouvenirs?.map((souvenir, index) => {
             return (
               <SingleSouvenirForDisplay
                 key={index}
