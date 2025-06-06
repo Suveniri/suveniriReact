@@ -14,6 +14,8 @@ export default function CurrentSeason({ route }) {
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalOrderedValue, setTotalOrderedValue] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const [shouldRefetchAllSouvenirs, setShouldRefetchAllSouvneirs] =
+    useState(false);
 
   const currentYear = new Date().getFullYear();
 
@@ -37,7 +39,7 @@ export default function CurrentSeason({ route }) {
     };
 
     loadData();
-  }, []);
+  }, [shouldRefetchAllSouvenirs]);
 
   const filteredSouvenirs = souvenirs.filter((item) =>
     item.name?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -65,6 +67,8 @@ export default function CurrentSeason({ route }) {
               key={index}
               item={souvenir}
               areNumbersVisible={areNumbersVisible}
+              isCurrentSeason={true}
+              setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
             />
           ))}
         </ScrollView>

@@ -59,6 +59,7 @@ export default function PreviousSeasonDetails({ route }) {
               key={index}
               item={souvenir}
               areNumbersVisible={areNumbersVisible}
+              isCurrentSeason={false}
             />
           ))}
         </ScrollView>
