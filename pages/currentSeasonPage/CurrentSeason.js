@@ -7,6 +7,7 @@ import {
 import SearchBar from "../../components/SearchBar";
 import SingleSouvenirDisplay from "../../components/SingleSouvenirDisplay";
 import SeasonTopScreen from "./currentSeasonTopScreen/SeasonTopScreen";
+import { filterAndSortSouvenirs } from "../../utils/helperFunctions";
 
 export default function CurrentSeason({ route }) {
   const { areNumbersVisible } = route.params;
@@ -41,9 +42,7 @@ export default function CurrentSeason({ route }) {
     loadData();
   }, [shouldRefetchAllSouvenirs]);
 
-  const filteredSouvenirs = souvenirs.filter((item) =>
-    item.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredSouvenirs = filterAndSortSouvenirs(souvenirs, searchTerm);
 
   return (
     <ImageBackground

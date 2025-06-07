@@ -52,4 +52,12 @@ const openGallery = async (setImage) => {
   }
 };
 
-export { openCamera, openGallery };
+const filterAndSortSouvenirs = (souvenirs, searchTerm) => {
+  return [...souvenirs]
+    .filter((item) =>
+      item.name?.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => a.name.localeCompare(b.name));
+};
+
+export { openCamera, openGallery, filterAndSortSouvenirs };

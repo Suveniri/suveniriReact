@@ -11,6 +11,7 @@ import SingleSouvenirForDisplay from "./singleSouvenirForDisplay/SingleSouvenirF
 import { fetchAllSouvenirs } from "../../api/db";
 import EditSouvenirModal from "./singleSouvenirForDisplay/EditSouvenirModal";
 import SearchBar from "../../components/SearchBar";
+import { filterAndSortSouvenirs } from "../../utils/helperFunctions";
 
 export default function AllSouvenirs({ route }) {
   const { areNumbersVisible } = route.params;
@@ -30,9 +31,7 @@ export default function AllSouvenirs({ route }) {
     loadSouvenirs();
   }, [shouldRefetchAllSouvenirs]);
 
-  const filteredSouvenirs = allSouvenirs.filter((item) =>
-    item.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredSouvenirs = filterAndSortSouvenirs(allSouvenirs, searchTerm);
 
   return (
     <ImageBackground

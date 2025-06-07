@@ -4,6 +4,7 @@ import { fetchSouvenirsForSingleSeason } from "../../api/db";
 import SearchBar from "../../components/SearchBar";
 import SingleSouvenirDisplay from "../../components/SingleSouvenirDisplay";
 import SeasonTopScreen from "../currentSeasonPage/currentSeasonTopScreen/SeasonTopScreen";
+import { filterAndSortSouvenirs } from "../../utils/helperFunctions";
 
 export default function PreviousSeasonDetails({ route }) {
   const { year, areNumbersVisible } = route.params;
@@ -33,9 +34,7 @@ export default function PreviousSeasonDetails({ route }) {
     loadData();
   }, [year]);
 
-  const filteredSouvenirs = souvenirs.filter((item) =>
-    item.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredSouvenirs = filterAndSortSouvenirs(souvenirs, searchTerm);
 
   return (
     <ImageBackground
