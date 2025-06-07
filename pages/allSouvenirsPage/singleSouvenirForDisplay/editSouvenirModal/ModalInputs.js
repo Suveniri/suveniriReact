@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
+    color: "black",
     width: "90%",
     borderWidth: 1,
     borderColor: "gray",

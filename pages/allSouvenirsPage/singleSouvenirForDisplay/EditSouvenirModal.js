@@ -42,7 +42,11 @@ export default function EditSouvenirModal({
       transparent={true}
       visible={souvenir ? isModalVisible : isNewSouvenirModalVisible}
       animationType="slide"
-      onRequestClose={() => setIsModalVisible(false)}
+      onRequestClose={() => {
+        souvenir
+          ? setIsModalVisible(false)
+          : setIsNewSouvenirModalVisible(false);
+      }}
     >
       <View style={styles.modalOverlay}>
         <View
