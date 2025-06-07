@@ -143,8 +143,12 @@ export const saveSouvenirChanges = async (
     .eq("id", souvenir.id);
 
   if (error) {
-    console.error(`Error fetching ${souvenir}: `, error);
-    return [];
+    if (error.code === "23505") {
+      alert("Suvenir tog imena već postoji!");
+    } else {
+      console.error(`Error editing souvenir: `, error);
+      alert("Grešla pri izmjeni podataka suvenira!");
+    }
   }
 };
 
@@ -173,8 +177,12 @@ export const createNewSouvenir = async (newName, newPrice, newImage) => {
   });
 
   if (error) {
-    console.error(`Error adding new souvenir: `, error);
-    return [];
+    if (error.code === "23505") {
+      alert("Suvenir tog imena već postoji!");
+    } else {
+      console.error(`Error adding new souvenir: `, error);
+      alert("Grešla pri dodavanju novog suvenira!");
+    }
   } else {
     console.log("successfully added souvenir: ", data);
   }
