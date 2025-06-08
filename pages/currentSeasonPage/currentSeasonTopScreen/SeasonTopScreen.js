@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 export default function SeasonTopScreen({
@@ -47,11 +47,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textAlignVertical: "center",
     padding: 10,
+    fontWeight: "bold",
   },
   halfBlock: {
     width: "50%",
     height: 50,
-    fontSize: 20,
+    fontSize: 17,
+    fontWeight: "bold",
     borderWidth: 1,
     borderColor: "black",
     textAlign: "left",

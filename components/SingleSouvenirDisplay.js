@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#ffffffcc",
     borderRadius: 10,
-    padding: 15,
+    padding: 10,
     marginBottom: 15,
     minWidth: 250,
   },
@@ -85,26 +85,5 @@ const styles = StyleSheet.create({
   textContainer: {
     display: "flex",
     flexDirection: "row",
-  },
-  editButtonContainer: {
-    width: "25%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  editButton: {
-    width: "100%",
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 2,
-    borderRadius: 5,
-    backgroundColor: "darkgray",
-  },
-  buttonText: {
-    textAlign: "center",
-    textAlignVertical: "center",
-    fontWeight: "bold",
-    fontSize: 20,
   },
 });

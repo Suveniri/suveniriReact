@@ -155,7 +155,7 @@ export const saveSouvenirChanges = async (
 export const createNewSouvenir = async (newName, newPrice, newImage) => {
   const fileName = `${newName.replace(/[^a-zA-Z ]/g, "")}.jpg`;
 
-  if (!newName || !newPrice) {
+  if (!newName || !newPrice || !newImage) {
     alert("Ispuni sva polja!");
     return [];
   }
@@ -194,6 +194,8 @@ export const deleteSouvenir = async (souvenir) => {
     .select("souvenir_id")
     .eq("souvenir_id", souvenir.id)
     .limit(1);
+
+  removeOldImage(souvenir.imageUrl);
 
   if (checkError) {
     console.error(`Error checking souvenir usage:`, checkError);
