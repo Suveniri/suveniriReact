@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
   },
   text: {
-    fontSize: 32,
+    fontSize: 26,
     height: "5%",
     fontWeight: "bold",
   },
@@ -106,6 +106,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontSize: 22,
+    fontSize: 18,
   },
 });

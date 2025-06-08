@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
   },
   addImageText: {
     color: "white",
-    fontSize: 24,
+    fontSize: 20,
     textAlign: "center",
   },
   imageText: {
     color: "black",
-    fontSize: 24,
+    fontSize: 20,
   },
 });

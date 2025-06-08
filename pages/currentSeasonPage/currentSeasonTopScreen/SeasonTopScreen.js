@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   fullWidthBlock: {
     width: "100%",
     height: 50,
-    fontSize: 24,
+    fontSize: 20,
     borderWidth: 1,
     borderColor: "black",
     textAlign: "center",
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   halfBlock: {
     width: "50%",
     height: 50,
-    fontSize: 17,
+    fontSize: 14,
     fontWeight: "bold",
     borderWidth: 1,
     borderColor: "black",

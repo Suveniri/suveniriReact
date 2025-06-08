@@ -79,12 +79,12 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: "center",
-    fontSize: 22,
+    fontSize: 18,
     color: "white",
   },
   modalText: {
     fontSize: 24,
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: 16,
   },
 });

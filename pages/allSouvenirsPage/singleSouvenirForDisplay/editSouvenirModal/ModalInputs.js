@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     marginBottom: -10,
   },
   modalText: {
-    fontSize: 20,
+    fontSize: 16,
     marginBottom: 20,
   },
   input: {

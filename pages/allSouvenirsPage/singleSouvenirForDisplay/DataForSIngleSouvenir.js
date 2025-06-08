@@ -45,13 +45,13 @@ const styles = StyleSheet.create({
   priceText: {
     height: "100%",
     width: "50%",
-    fontSize: 24,
+    fontSize: 20,
     textAlign: "center",
     marginBottom: "10%",
   },
   nameText: {
     height: "70%",
-    fontSize: 24,
+    fontSize: 20,
     textAlign: "center",
     textAlignVertical: "center",
   },
@@ -90,6 +90,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 16,
   },
 });

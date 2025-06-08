@@ -19,7 +19,7 @@ export default function DataContainer({ item, isCurrentSeason }) {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 24,
+    fontSize: 20,
   },
   dataContainer: {
     width: "75%",

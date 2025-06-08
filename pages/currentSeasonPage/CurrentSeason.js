@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   text: {
-    fontSize: 24,
+    fontSize: 20,
   },
   souvenirsContainer: {
     width: "75%",

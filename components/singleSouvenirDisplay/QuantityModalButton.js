@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: 24,
+    fontSize: 20,
     textAlign: "center",
   },
 });

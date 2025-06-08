@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     color: "white",
-    fontSize: 24,
+    fontSize: 20,
     textAlign: "center",
   },
   buttonsContainer: {
