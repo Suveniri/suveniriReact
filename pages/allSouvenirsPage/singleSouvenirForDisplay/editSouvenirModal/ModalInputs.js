@@ -16,11 +16,13 @@ export default function ModalInputs({ souvenir, setNewName, setNewPrice }) {
         style={styles.input}
         onChangeText={setNewName}
         placeholder="Novo ime"
+        placeholderTextColor="#888"
       />
       <TextInput
         style={styles.input}
         onChangeText={setNewPrice}
         placeholder="Nova cijena"
+        placeholderTextColor="#888"
         keyboardType="numeric"
       />
     </View>
