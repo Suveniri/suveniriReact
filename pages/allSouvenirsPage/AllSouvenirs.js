@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
+  FlatList,
   ImageBackground,
 } from "react-native";
 import SingleSouvenirForDisplay from "./singleSouvenirForDisplay/SingleSouvenirForDisplay";
@@ -12,6 +12,7 @@ import { fetchAllSouvenirs } from "../../api/db";
 import EditSouvenirModal from "./singleSouvenirForDisplay/EditSouvenirModal";
 import SearchBar from "../../components/SearchBar";
 import { filterAndSortSouvenirs } from "../../utils/helperFunctions";
+import FullscreenImageModal from "../../components/FullScreenImageModal";
 
 export default function AllSouvenirs({ route }) {
   const { areNumbersVisible } = route.params;
@@ -21,6 +22,8 @@ export default function AllSouvenirs({ route }) {
   const [isNewSouvenirModalVisible, setIsNewSouvenirModalVisible] =
     useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedImageSouvenir, setSelectedImageSouvenir] = useState(null);
+  const [isImageModalVisible, setIsImageModalVisible] = useState(false);
 
   useEffect(() => {
     async function loadSouvenirs() {
@@ -44,18 +47,23 @@ export default function AllSouvenirs({ route }) {
 
         <SearchBar value={searchTerm} onChangeText={setSearchTerm} />
 
-        <ScrollView style={styles.souvenirsContainer}>
-          {filteredSouvenirs?.map((souvenir, index) => {
-            return (
-              <SingleSouvenirForDisplay
-                key={index}
-                souvenir={souvenir}
-                areNumbersVisible={areNumbersVisible}
-                setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
-              />
-            );
-          })}
-        </ScrollView>
+        <FlatList
+          data={filteredSouvenirs}
+          keyExtractor={(item, index) =>
+            item.id?.toString() || index.toString()
+          }
+          renderItem={({ item }) => (
+            <SingleSouvenirForDisplay
+              souvenir={item}
+              areNumbersVisible={areNumbersVisible}
+              setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
+              setSelectedImageSouvenir={setSelectedImageSouvenir}
+              setIsImageModalVisible={setIsImageModalVisible}
+            />
+          )}
+          contentContainerStyle={styles.souvenirsContainer}
+        />
+
         <TouchableOpacity
           style={styles.button}
           onPress={() => setIsNewSouvenirModalVisible(true)}
@@ -67,6 +75,14 @@ export default function AllSouvenirs({ route }) {
           isNewSouvenirModalVisible={isNewSouvenirModalVisible}
           setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
         />
+        {selectedImageSouvenir && (
+          <FullscreenImageModal
+            souvenir={selectedImageSouvenir}
+            setIsImageModalVisible={setIsImageModalVisible}
+            isImageModalVisible={isImageModalVisible}
+            setSelectedImageSouvenir={setSelectedImageSouvenir}
+          />
+        )}
       </View>
     </ImageBackground>
   );

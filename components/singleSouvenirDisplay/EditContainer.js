@@ -1,12 +1,19 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
-export default function EditContainer({ setIsQuantityModalVisible }) {
+export default function EditContainer({
+  souvenir,
+  setIsQuantityModalVisible,
+  setSelectedQuantitySouvenir,
+}) {
   return (
     <View style={styles.editButtonContainer}>
       <TouchableOpacity
         style={styles.editButton}
-        onPress={() => setIsQuantityModalVisible((prev) => !prev)}
+        onPress={() => {
+          setIsQuantityModalVisible((prev) => !prev);
+          setSelectedQuantitySouvenir(souvenir);
+        }}
       >
         <Text style={styles.buttonText}>UREDI</Text>
       </TouchableOpacity>

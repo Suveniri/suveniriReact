@@ -16,11 +16,13 @@ export default function ModalInputs({ souvenir, setNewName, setNewPrice }) {
         style={styles.input}
         onChangeText={setNewName}
         placeholder="Novo ime"
+        placeholderTextColor="#888"
       />
       <TextInput
         style={styles.input}
         onChangeText={setNewPrice}
         placeholder="Nova cijena"
+        placeholderTextColor="#888"
         keyboardType="numeric"
       />
     </View>
@@ -41,6 +43,7 @@ const styles = StyleSheet.create({
   },
   input: {
     color: "black",
+    backgroundColor: "white",
     width: "90%",
     borderWidth: 1,
     borderColor: "gray",

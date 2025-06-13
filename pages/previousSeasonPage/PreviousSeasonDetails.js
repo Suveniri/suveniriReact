@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
+import { ImageBackground, FlatList, StyleSheet, View } from "react-native";
 import { fetchSouvenirsForSingleSeason } from "../../api/db";
 import SearchBar from "../../components/SearchBar";
 import SingleSouvenirDisplay from "../../components/SingleSouvenirDisplay";
 import SeasonTopScreen from "../currentSeasonPage/currentSeasonTopScreen/SeasonTopScreen";
 import { filterAndSortSouvenirs } from "../../utils/helperFunctions";
+import FullscreenImageModal from "../../components/FullScreenImageModal";
 
 export default function PreviousSeasonDetails({ route }) {
   const { year, areNumbersVisible } = route.params;
@@ -12,6 +13,8 @@ export default function PreviousSeasonDetails({ route }) {
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalOrderedValue, setTotalOrderedValue] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isImageModalVisible, setIsImageModalVisible] = useState(false);
+  const [selectedImageSouvenir, setSelectedImageSouvenir] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -52,16 +55,30 @@ export default function PreviousSeasonDetails({ route }) {
 
         <SearchBar value={searchTerm} onChangeText={setSearchTerm} />
 
-        <ScrollView style={styles.souvenirsContainer}>
-          {filteredSouvenirs.map((souvenir, index) => (
+        <FlatList
+          data={filteredSouvenirs}
+          keyExtractor={(item, index) =>
+            item.id?.toString() || index.toString()
+          }
+          renderItem={({ item }) => (
             <SingleSouvenirDisplay
-              key={index}
-              item={souvenir}
+              item={item}
               areNumbersVisible={areNumbersVisible}
               isCurrentSeason={false}
+              setIsImageModalVisible={setIsImageModalVisible}
+              setSelectedImageSouvenir={setSelectedImageSouvenir}
             />
-          ))}
-        </ScrollView>
+          )}
+          contentContainerStyle={styles.souvenirsContainer}
+        />
+        {selectedImageSouvenir && (
+          <FullscreenImageModal
+            souvenir={selectedImageSouvenir}
+            setIsImageModalVisible={setIsImageModalVisible}
+            isImageModalVisible={isImageModalVisible}
+            setSelectedImageSouvenir={setSelectedImageSouvenir}
+          />
+        )}
       </View>
     </ImageBackground>
   );
