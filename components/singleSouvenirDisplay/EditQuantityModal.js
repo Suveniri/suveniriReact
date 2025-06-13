@@ -8,6 +8,7 @@ export default function EditQuantityModal({
   setIsQuantityModalVisible,
   isQuantityModalVisible,
   setShouldRefetchAllSouvneirs,
+  setSelectedQuantitySouvenir,
 }) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const [newOrderQuantity, setNewOrderQuantity] = useState(0);
@@ -40,7 +41,10 @@ export default function EditQuantityModal({
       transparent={true}
       visible={isQuantityModalVisible}
       animationType="slide"
-      onRequestClose={() => setIsQuantityModalVisible(false)}
+      onRequestClose={() => {
+        setIsQuantityModalVisible(false);
+        setSelectedQuantitySouvenir(null);
+      }}
     >
       <View style={styles.modalOverlay}>
         <View

@@ -1,25 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text, View, StyleSheet, Image, Pressable } from "react-native";
-import FullscreenImageModal from "./FullScreenImageModal";
 import DataContainer from "./singleSouvenirDisplay/DataContainer";
 import EditContainer from "./singleSouvenirDisplay/EditContainer";
-import EditQuantityModal from "./singleSouvenirDisplay/EditQuantityModal";
 
 export default function SingleSouvenirDisplay({
   item,
   areNumbersVisible,
   isCurrentSeason,
-  setShouldRefetchAllSouvneirs,
+  setIsImageModalVisible,
+  setSelectedImageSouvenir,
+  setSelectedQuantitySouvenir,
+  setIsQuantityModalVisible,
 }) {
-  const [isImageModalVisible, setIsImageModalVisible] = useState(false);
-  const [isQuantityModalVisible, setIsQuantityModalVisible] = useState(false);
-
   return (
     <View style={styles.card}>
       {item.image_url && (
         <Pressable
           onPress={() => {
             setIsImageModalVisible(true);
+            setSelectedImageSouvenir(item);
           }}
           style={styles.image}
         >
@@ -37,26 +36,15 @@ export default function SingleSouvenirDisplay({
             <DataContainer item={item} isCurrentSeason={isCurrentSeason} />
             {isCurrentSeason && (
               <EditContainer
+                souvenir={item}
                 setIsQuantityModalVisible={setIsQuantityModalVisible}
+                setSelectedQuantitySouvenir={setSelectedQuantitySouvenir}
               />
             )}
           </View>
         </>
       ) : (
         <></>
-      )}
-      <FullscreenImageModal
-        souvenir={item}
-        setIsImageModalVisible={setIsImageModalVisible}
-        isImageModalVisible={isImageModalVisible}
-      />
-      {isCurrentSeason && (
-        <EditQuantityModal
-          souvenir={item}
-          setIsQuantityModalVisible={setIsQuantityModalVisible}
-          isQuantityModalVisible={isQuantityModalVisible}
-          setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
-        />
       )}
     </View>
   );

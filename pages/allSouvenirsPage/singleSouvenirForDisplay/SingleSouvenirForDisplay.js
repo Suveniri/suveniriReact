@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet, Image, Modal, Pressable } from "react-native";
 import DataForSingleSouvenir from "./DataForSIngleSouvenir";
-import FullscreenImageModal from "../../../components/FullScreenImageModal";
 
 export default function SingleSouvenirForDisplay({
   souvenir,
   areNumbersVisible,
   setShouldRefetchAllSouvneirs,
+  setSelectedImageSouvenir,
+  setIsImageModalVisible,
 }) {
-  const [isImageModalVisible, setIsImageModalVisible] = useState(false);
-
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Pressable
           onPress={() => {
             setIsImageModalVisible(true);
+            setSelectedImageSouvenir(souvenir);
           }}
           style={styles.image}
         >
@@ -30,11 +30,6 @@ export default function SingleSouvenirForDisplay({
         souvenir={souvenir}
         areNumbersVisible={areNumbersVisible}
         setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
-      />
-      <FullscreenImageModal
-        souvenir={souvenir}
-        setIsImageModalVisible={setIsImageModalVisible}
-        isImageModalVisible={isImageModalVisible}
       />
     </View>
   );

@@ -5,6 +5,7 @@ export default function FullscreenImageModal({
   souvenir,
   setIsImageModalVisible,
   isImageModalVisible,
+  setSelectedImageSouvenir,
 }) {
   return (
     <Modal
@@ -14,7 +15,10 @@ export default function FullscreenImageModal({
     >
       <View style={styles.modalContainer}>
         <Pressable
-          onPress={() => setIsImageModalVisible(false)}
+          onPress={() => {
+            setIsImageModalVisible(false);
+            setSelectedImageSouvenir(null);
+          }}
           style={styles.fullscreenImage}
         >
           <Image

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
+import { ImageBackground, StyleSheet, View, FlatList } from "react-native";
 import {
   fetchSouvenirsForSingleSeason,
   initializeSouvenirsForCurrentYear,
@@ -8,6 +8,8 @@ import SearchBar from "../../components/SearchBar";
 import SingleSouvenirDisplay from "../../components/SingleSouvenirDisplay";
 import SeasonTopScreen from "./currentSeasonTopScreen/SeasonTopScreen";
 import { filterAndSortSouvenirs } from "../../utils/helperFunctions";
+import FullscreenImageModal from "../../components/FullScreenImageModal";
+import EditQuantityModal from "../../components/singleSouvenirDisplay/EditQuantityModal";
 
 export default function CurrentSeason({ route }) {
   const { areNumbersVisible } = route.params;
@@ -17,6 +19,11 @@ export default function CurrentSeason({ route }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [shouldRefetchAllSouvenirs, setShouldRefetchAllSouvneirs] =
     useState(false);
+  const [isImageModalVisible, setIsImageModalVisible] = useState(false);
+  const [isQuantityModalVisible, setIsQuantityModalVisible] = useState(false);
+  const [selectedImageSouvenir, setSelectedImageSouvenir] = useState(null);
+  const [selectedQuantitySouvenir, setSelectedQuantitySouvenir] =
+    useState(null);
 
   const currentYear = new Date().getFullYear();
 
@@ -60,18 +67,43 @@ export default function CurrentSeason({ route }) {
 
         <SearchBar value={searchTerm} onChangeText={setSearchTerm} />
 
-        <ScrollView style={styles.souvenirsContainer}>
-          {filteredSouvenirs.map((souvenir, index) => (
+        <FlatList
+          data={filteredSouvenirs}
+          keyExtractor={(item, index) =>
+            item.id?.toString() || index.toString()
+          }
+          renderItem={({ item }) => (
             <SingleSouvenirDisplay
-              key={index}
-              item={souvenir}
+              item={item}
               areNumbersVisible={areNumbersVisible}
               isCurrentSeason={true}
-              setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
+              setIsImageModalVisible={setIsImageModalVisible}
+              setSelectedImageSouvenir={setSelectedImageSouvenir}
+              setSelectedQuantitySouvenir={setSelectedQuantitySouvenir}
+              setIsQuantityModalVisible={setIsQuantityModalVisible}
             />
-          ))}
-        </ScrollView>
+          )}
+          contentContainerStyle={styles.souvenirsContainer}
+        />
       </View>
+      {selectedImageSouvenir && (
+        <FullscreenImageModal
+          souvenir={selectedImageSouvenir}
+          setIsImageModalVisible={setIsImageModalVisible}
+          isImageModalVisible={isImageModalVisible}
+          setSelectedImageSouvenir={setSelectedImageSouvenir}
+        />
+      )}
+
+      {selectedQuantitySouvenir && (
+        <EditQuantityModal
+          souvenir={selectedQuantitySouvenir}
+          setIsQuantityModalVisible={setIsQuantityModalVisible}
+          isQuantityModalVisible={isQuantityModalVisible}
+          setShouldRefetchAllSouvneirs={setShouldRefetchAllSouvneirs}
+          setSelectedQuantitySouvenir={setSelectedQuantitySouvenir}
+        />
+      )}
     </ImageBackground>
   );
 }
