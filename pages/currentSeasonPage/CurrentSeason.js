@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { ImageBackground, StyleSheet, View, FlatList } from "react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  ImageBackground,
+  StyleSheet,
+  View,
+  FlatList,
+  Switch,
+  Text,
+} from "react-native";
 import {
   fetchSouvenirsForSingleSeason,
   initializeSouvenirsForCurrentYear,
@@ -24,6 +31,7 @@ export default function CurrentSeason({ route }) {
   const [selectedImageSouvenir, setSelectedImageSouvenir] = useState(null);
   const [selectedQuantitySouvenir, setSelectedQuantitySouvenir] =
     useState(null);
+  const [showOnlyWithRevenue, setShowOnlyWithRevenue] = useState(false);
 
   const currentYear = new Date().getFullYear();
 
@@ -49,7 +57,16 @@ export default function CurrentSeason({ route }) {
     loadData();
   }, [shouldRefetchAllSouvenirs]);
 
-  const filteredSouvenirs = filterAndSortSouvenirs(souvenirs, searchTerm);
+  const filteredSouvenirs = useMemo(() => {
+    let souvenirsToFilter = souvenirs;
+    if (showOnlyWithRevenue) {
+      souvenirsToFilter = souvenirsToFilter.filter(
+        (s) => (parseFloat(s.revenue) || 0) !== 0
+      );
+    }
+
+    return filterAndSortSouvenirs(souvenirsToFilter, searchTerm);
+  }, [souvenirs, searchTerm, showOnlyWithRevenue]);
 
   return (
     <ImageBackground
@@ -66,6 +83,16 @@ export default function CurrentSeason({ route }) {
         />
 
         <SearchBar value={searchTerm} onChangeText={setSearchTerm} />
+
+        <View style={styles.filterContainer}>
+          <Text style={styles.filterText}>Prikaži samo prodane</Text>
+          <Switch
+            trackColor={{ false: "#767577", true: "#add8e6" }}
+            thumbColor={showOnlyWithRevenue ? "#87cefa" : "#f8f8ff"}
+            onValueChange={setShowOnlyWithRevenue}
+            value={showOnlyWithRevenue}
+          />
+        </View>
 
         <FlatList
           data={filteredSouvenirs}
@@ -109,6 +136,10 @@ export default function CurrentSeason({ route }) {
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: "100%",
+  },
   container: {
     display: "flex",
     marginTop: 40,
@@ -123,5 +154,19 @@ const styles = StyleSheet.create({
   },
   souvenirsContainer: {
     width: "75%",
+  },
+  filterContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    width: "75%",
+    marginVertical: 10,
+    transform: [{ scale: 1.2 }],
+  },
+  filterText: {
+    marginRight: 10,
+    fontSize: 16,
+    color: "white",
+    fontWeight: "bold",
   },
 });
