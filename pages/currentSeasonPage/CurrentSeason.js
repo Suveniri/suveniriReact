@@ -5,6 +5,7 @@ import {
   initializeSouvenirsForCurrentYear,
 } from "../../api/db";
 import SearchBar from "../../components/SearchBar";
+import FilterSoldSouvenirs from "../../components/FilterSoldSouvenirs";
 import SingleSouvenirDisplay from "../../components/SingleSouvenirDisplay";
 import SeasonTopScreen from "./currentSeasonTopScreen/SeasonTopScreen";
 import { filterAndSortSouvenirs } from "../../utils/helperFunctions";
@@ -16,7 +17,6 @@ export default function CurrentSeason({ route }) {
   const [souvenirs, setSouvenirs] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalOrderedValue, setTotalOrderedValue] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
   const [shouldRefetchAllSouvenirs, setShouldRefetchAllSouvneirs] =
     useState(false);
   const [isImageModalVisible, setIsImageModalVisible] = useState(false);
@@ -24,6 +24,9 @@ export default function CurrentSeason({ route }) {
   const [selectedImageSouvenir, setSelectedImageSouvenir] = useState(null);
   const [selectedQuantitySouvenir, setSelectedQuantitySouvenir] =
     useState(null);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isFilteringSold, setIsFilteringSold] = useState(false);
 
   const currentYear = new Date().getFullYear();
 
@@ -49,7 +52,13 @@ export default function CurrentSeason({ route }) {
     loadData();
   }, [shouldRefetchAllSouvenirs]);
 
-  const filteredSouvenirs = filterAndSortSouvenirs(souvenirs, searchTerm);
+  const filteredSouvenirs = filterAndSortSouvenirs(
+    souvenirs,
+    searchTerm
+  ).filter((item) => {
+    if (!isFilteringSold) return true;
+    return item.quantitySold > 0;
+  });
 
   return (
     <ImageBackground
@@ -65,7 +74,13 @@ export default function CurrentSeason({ route }) {
           totalOrderedValue={totalOrderedValue}
         />
 
-        <SearchBar value={searchTerm} onChangeText={setSearchTerm} />
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+          <SearchBar value={searchTerm} onChangeText={setSearchTerm} />
+          <FilterSoldSouvenirs
+            isFiltering={isFilteringSold}
+            onToggle={() => setIsFilteringSold((prev) => !prev)}
+          />
+        </View>
 
         <FlatList
           data={filteredSouvenirs}
